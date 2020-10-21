@@ -1,7 +1,4 @@
 class PostsController < ApplicationController
-  def show
-    @post = Post.find(params[:id])
-  end
 
   def index
     @posts = Post.all
@@ -9,11 +6,24 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    3.times do
+      @post.categories.build(:name => "Sample Category")
+    end
   end
 
   def create
-    post = Post.create(post_params)
-    redirect_to post
+    @post = Post.create(post_params)
+    redirect_to @post
+  end
+
+
+  def show
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.update(post_params)
+    redirect_to @post
   end
 
   private
@@ -21,4 +31,7 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :content, category_ids:[], categories_attributes: [:name])
   end
+
 end
+
+#posts_controller
